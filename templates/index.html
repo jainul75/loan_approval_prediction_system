@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet" />
+  <title>Loan Approval Prediction</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      padding: 40px 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    .heading {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 32px;
+      font-weight: 600;
+      color: #060011;
+    }
+
+    .prediction_card {
+      width: 600px;
+    }
+
+    .prediction_section {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .prediction_form {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .select_field,
+    .input_field {
+      width: 100%;
+      padding: 8px 5px;
+      border-radius: 5px;
+      outline: none;
+      border: 1px solid #b6b6b6;
+      box-shadow: 0px 1px 4px 0px rgba(136, 136, 136, 0.12);
+      font-size: 16px;
+    }
+
+    .input_field {
+      width: calc(100% - 15px);
+      padding: 8px 5px;
+      border-radius: 5px;
+
+      outline: none;
+    }
+
+    .flex {
+      display: flex;
+      gap: 15px;
+    }
+
+    .w-full {
+      width: 100%;
+    }
+
+    .submit_button {
+      padding: 12px 28px;
+      background-color: #060011;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 500;
+      border-radius: 5px;
+    }
+
+    .prediction_result {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .prediction_result.approved {
+      background-color: #6ebf73;
+      /* Green background for approved prediction */
+      color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .prediction_result.rejected {
+      background-color: #f05d5e;
+      /* Red background for rejected prediction */
+      color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="prediction_section">
+    <div class="prediction_card">
+      <div>
+        <h2 class="heading">Loan Approval Prediction</h2>
+        <hr />
+        <form class="prediction_form" id="loanForm" action="/predict" method="post">
+          <div class="flex">
+            <div class="w-full">
+              <label for="gender">Gender</label>
+              <select class="select_field" id="gender" name="gender" placeholder="Your Gender" required>
+                <option value="" disabled selected>Your Gender</option>
+                <option value="1">Male</option>
+                <option value="0">Female</option>
+              </select>
+            </div>
+
+            <div class="w-full">
+              <label for="married">Married</label>
+              <select class="select_field" id="married" name="married" placeholder="Your Marital Status" required>
+                <option value="" disabled selected>
+                  Your Marital Status
+                </option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+          </div>
+
+          <label for="dependents">Dependents</label>
+          <select class="select_field" id="dependents" name="dependents" placeholder="Number of Dependents" required>
+            <option value="" disabled selected>Number of Dependents</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3+</option>
+          </select>
+
+          <label for="education">Education</label>
+          <select class="select_field" id="education" name="education" placeholder="Your Education Status" required>
+            <option value="" disabled selected>Your Education Status</option>
+            <option value="0">Graduate</option>
+            <option value="1">Not Graduate</option>
+          </select>
+
+          <label for="selfEmployed">Self Employed</label>
+          <select class="select_field" id="selfEmployed" name="selfEmployed" placeholder="Are You Self Employed?"
+            required>
+            <option value="" disabled selected>Are You Self Employed?</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+          </select>
+
+          <div class="flex">
+            <div class="w-full">
+              <label for="applicantIncome">Applicant Income</label>
+              <input class="input_field" type="number" id="applicantIncome" name="applicantIncome"
+                placeholder="Applicant Income per Month (USD)" required min="0" />
+            </div>
+
+            <div class="w-full">
+              <label for="coapplicantIncome">Coapplicant Income</label>
+              <input class="input_field" type="number" id="coapplicantIncome" name="coapplicantIncome"
+                placeholder="Co-Applicant Income per Month (USD)" required min="0" />
+            </div>
+          </div>
+
+          <div class="flex">
+            <div class="w-full">
+              <label for="loanAmount">Loan Amount</label>
+              <input class="input_field" type="number" id="loanAmount" name="loanAmount"
+                placeholder="Your Loan Amount (USD)" required min="0" />
+            </div>
+
+            <div class="w-full">
+              <label for="term">Term</label>
+              <select class="select_field" id="term" name="term" placeholder="Your Loan Term (days)" required>
+                <option value="" disabled selected>
+                  Your Loan Term (days)
+                </option>
+                <option value="6">480.0</option>
+                <option value="7">360.0</option>
+                <option value="4">300.0</option>
+                <option value="3">240.0</option>
+                <option value="2">180.0</option>
+                <option value="1">120.0</option>
+                <option value="9">84.0</option>
+                <option value="8">60.0</option>
+                <option value="5">36.0</option>
+                <option value="0">12.0</option>
+              </select>
+            </div>
+          </div>
+
+          <label for="creditHistory">Credit History</label>
+          <select class="select_field" id="creditHistory" name="creditHistory" placeholder="Do you have credit history?"
+            required>
+            <option value="" disabled selected>
+              Do you have credit history?
+            </option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+          </select>
+
+          <label for="area">Area</label>
+          <select class="select_field" id="area" name="area" placeholder="Your Property Area" required>
+            <option value="" disabled selected>Your Property Area</option>
+            <option value="2">Urban</option>
+            <option value="1">Semiurban</option>
+            <option value="0">Rural</option>
+          </select>
+
+          <button class="submit_button" type="submit">Let's Predict</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+   <!-- <div id="predictionResult" class="prediction_result"></div> -->
+
+  <script>
+    function predictLoanApproval(event) {
+      event.preventDefault(); // Prevent form submission
+
+      var form = document.getElementById("loanForm");
+      var formData = new FormData(form);
+
+      fetch("/predict", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          var resultDiv = document.getElementById("predictionResult");
+          var predictionText = data.prediction;
+          console.log({ data })
+
+          // Update the result div based on prediction
+          resultDiv.innerHTML = predictionText;
+
+          // Set background color based on prediction
+          resultDiv.style.backgroundColor =
+            predictionText === "Your loan is approved" ? "green" : "red";
+        })
+        .catch((error) => console.error("Error:", error));
+    }
+
+  </script>
+</body>
+
+</html>
