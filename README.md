@@ -14,3 +14,5 @@ Several machine learning algorithms (SVM, Random Forest, Gradient Boosting, XGBo
 The model is deployed using Flask, a lightweight WSGI web application framework in Python. Flask provides a simple and flexible way to create web APIs, making it suitable for deploying machine learning models as web services.
 
 Create a HTML form for users inputs. The data then sent to the backend(Flask) and the RF model make prediction based on thoese data.
+
+Here is the url - https://adan-loan-approval-prediction-system.onrender.com
